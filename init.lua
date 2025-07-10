@@ -58,17 +58,21 @@ require("lazy").setup({
 		{
 			"folke/which-key.nvim",
 			event = "VeryLazy",
+			opts = {},
+			keys = {
+				{
+					"<leader>n",
+					function()
+						require("which-key").show({ global = false })
+					end,
+					desc = "[N]vimTree",
+				},
+			},
 			config = function()
-				local wk = require("which-key")
-				wk.setup()
-				wk.add({
-					{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File Tree" },
-				})
-				-- wk.register({
-				-- 	{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File Tree" },
-				-- })
+				require("which-key").setup()
 			end,
 		},
+
 		-- Tabline
 		{
 			"akinsho/bufferline.nvim",
@@ -100,6 +104,9 @@ require("lazy").setup({
 			dependencies = { "nvim-tree/nvim-web-devicons" },
 			config = function()
 				require("nvim-tree").setup({})
+				vim.keymap.set("n", "<leader>nt", "<cmd>NvimTreeToggle<CR>", { desc = "[N]vimTree [T]oggle" })
+				vim.keymap.set("n", "<leader>nc", "<cmd>NvimTreeClose<CR>", { desc = "[N]vimTree [C]lose" })
+				vim.keymap.set("n", "<leader>no", "<cmd>NvimTreeOpen<CR>", { desc = "[N]vimTree [O]pen" })
 			end,
 		},
 
