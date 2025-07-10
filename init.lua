@@ -42,7 +42,6 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
-
 		-- Gruvbox colorscheme
 		{
 			"ellisonleao/gruvbox.nvim",
@@ -68,6 +67,20 @@ require("lazy").setup({
 				-- wk.register({
 				-- 	{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File Tree" },
 				-- })
+			end,
+		},
+		-- Tabline
+		{
+			"akinsho/bufferline.nvim",
+			version = "*",
+			dependencies = "nvim-tree/nvim-web-devicons",
+			config = function()
+				vim.opt.termguicolors = true
+				require("bufferline").setup({
+					options = {
+						separator_style = "slant",
+					},
+				})
 			end,
 		},
 
