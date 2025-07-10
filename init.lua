@@ -44,7 +44,13 @@ require("lazy").setup({
 	spec = {
 
 		-- Gruvbox colorscheme
-		{ "ellisonleao/gruvbox.nvim", priority = 1000, config = true },
+		{
+			"ellisonleao/gruvbox.nvim",
+			priority = 1000,
+			config = function()
+				vim.cmd("colorscheme gruvbox")
+			end,
+		},
 
 		-- Nerd font icons
 		{ "nvim-tree/nvim-web-devicons" },
@@ -53,20 +59,16 @@ require("lazy").setup({
 		{
 			"folke/which-key.nvim",
 			event = "VeryLazy",
-			opts = {
-				-- your configuration comes here
-				-- or leave it empty to use the default settings
-				-- refer to the configuration section below
-			},
-			keys = {
-				{
-					"<leader>?",
-					function()
-						require("which-key").show({ global = false })
-					end,
-					desc = "Buffer Local Keymaps (which-key)",
-				},
-			},
+			config = function()
+				local wk = require("which-key")
+				wk.setup()
+				wk.add({
+					{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File Tree" },
+				})
+				-- wk.register({
+				-- 	{ "<leader>e", "<cmd>NvimTreeToggle<CR>", desc = "File Tree" },
+				-- })
+			end,
 		},
 
 		-- Status line
@@ -89,7 +91,21 @@ require("lazy").setup({
 		},
 
 		-- Formatter
-		{ "stevearc/conform.nvim" },
+		{
+			"stevearc/conform.nvim",
+			config = function()
+				require("conform").setup({
+					formatters_by_ft = {
+						lua = { "stylua" },
+						c = { "clang-format" },
+					},
+					format_on_save = {
+						timeout_ms = 500,
+						lsp_format = "fallback",
+					},
+				})
+			end,
+		},
 
 		-- Treesitter
 		{
@@ -97,10 +113,23 @@ require("lazy").setup({
 			branch = "master",
 			lazy = false,
 			build = ":TSUpdate",
+			config = function()
+				require("nvim-treesitter.configs").setup({
+					ensure_installed = { "c", "lua" },
+					auto_install = true,
+					highlight = { enable = true },
+					indent = { enable = true },
+				})
+			end,
 		},
 
 		-- Automatically install LSP and other
-		{ "mason-org/mason.nvim" },
+		{
+			"mason-org/mason.nvim",
+			config = function()
+				require("mason").setup()
+			end,
+		},
 
 		-- Autocomplete and LSP
 		{
@@ -126,33 +155,10 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
--- Treesitter setup for c and lua.
-require("nvim-treesitter.configs").setup({
-	ensure_installed = { "c", "lua" },
-	auto_install = true,
-	highlight = { enable = true },
-	indent = { enable = true },
-})
-
--- Mason setup
-require("mason").setup()
-
 -- LSP server enable section.
 -- installed through :MasonInstall
 vim.lsp.enable("clangd")
 vim.lsp.enable("lua_ls")
-
--- Formatter for c and lua
-require("conform").setup({
-	formatters_by_ft = {
-		lua = { "stylua" },
-		c = { "clang-format" },
-	},
-	format_on_save = {
-		timeout_ms = 500,
-		lsp_format = "fallback",
-	},
-})
 
 -- Text for LSP diagnostic
 vim.diagnostic.config({
@@ -165,6 +171,3 @@ vim.diagnostic.config({
 	underline = true,
 	update_in_insert = false,
 })
-
--- Set neovim colorscheme.
-vim.cmd("colorscheme gruvbox")
