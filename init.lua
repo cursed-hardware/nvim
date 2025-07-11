@@ -1,6 +1,5 @@
 -- Make sure to setup `mapleader` and `maplocalleader` before
 -- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
@@ -42,6 +41,7 @@ vim.opt.rtp:prepend(lazypath)
 -- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
+
 		-- Gruvbox colorscheme
 		{
 			"ellisonleao/gruvbox.nvim",
@@ -50,9 +50,6 @@ require("lazy").setup({
 				vim.cmd("colorscheme gruvbox")
 			end,
 		},
-
-		-- Nerd font icons
-		{ "nvim-tree/nvim-web-devicons" },
 
 		-- Keybindings hint
 		{
