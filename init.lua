@@ -66,7 +66,10 @@ require("lazy").setup({
 				},
 			},
 			config = function()
-				require("which-key").setup()
+				require("which-key").setup({
+					delay = 0,
+					preset = "modern",
+				})
 			end,
 		},
 
