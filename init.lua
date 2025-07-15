@@ -135,7 +135,7 @@ require("lazy").setup({
 			build = ":TSUpdate",
 			config = function()
 				require("nvim-treesitter.configs").setup({
-					ensure_installed = { "c", "lua" },
+					ensure_installed = { "c", "lua", "latex" },
 					auto_install = true,
 					highlight = { enable = true },
 					indent = { enable = true },
@@ -179,6 +179,7 @@ require("lazy").setup({
 -- installed through :MasonInstall
 vim.lsp.enable("clangd")
 vim.lsp.enable("lua_ls")
+vim.lsp.enable("texlab")
 
 -- Text for LSP diagnostic
 vim.diagnostic.config({
